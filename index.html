@@ -29,7 +29,7 @@ button,.btn{font:inherit;cursor:pointer}
 :focus-visible{outline:2px solid #4fb7a6;outline-offset:2px}
 main{max-width:1200px;margin:0 auto;padding:20px}
 section{display:none}section.on{display:block}
-input,select,textarea{background:var(--sf);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:8px 10px;font:inherit;min-width:0}
+input,select,textarea{background:var(--sf);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:8px 10px;font:inherit;font-size:16px;min-width:0}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .row input{flex:1 1 180px}
 .chip{display:inline-block;padding:2px 9px;border-radius:6px;background:var(--sf2);margin:2px 4px 2px 0;font-size:13px}
@@ -68,7 +68,9 @@ dialog .f input{display:block;width:100%;margin-top:3px;color:var(--tx)}
 textarea{resize:vertical;min-height:64px;font-family:inherit}
 a{color:var(--ac)}
 .rf{display:grid;gap:8px;background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:14px;margin-bottom:18px}
-.ir{display:flex;gap:8px}.ir .in{flex:2 1 0}.ir .iq{flex:1 1 0}
+.ir{display:grid;grid-template-columns:2fr 1fr auto;gap:8px;align-items:center}
+.inm{flex:1}
+dialog label.i input[type=checkbox]{margin:0;flex:none}
 .rname{background:none;border:0;color:var(--tx);padding:0;text-align:left;font-weight:600}
 .rname:hover{color:var(--ac);text-decoration:underline}
 .chip small{color:var(--mu);margin-left:3px}
@@ -81,6 +83,37 @@ a{color:var(--ac)}
 input.buy{padding:5px 8px}
 .sl small.am{margin-left:6px}
 @media(max-width:860px){.week{grid-template-columns:1fr}.day{min-height:0}}
+#ig{width:min(640px,94vw)}
+#ig h2{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#ig h3{font-size:15px;margin:18px 0 6px}
+#ig p,#ig li{margin:6px 0}#ig ol,#ig ul{padding-left:20px;margin:6px 0}
+#ig code{background:var(--sf2);padding:1px 5px;border-radius:4px;font-size:13px}
+@media(max-width:640px){
+ header{position:static;padding:12px;gap:10px}
+ h1{font-size:19px}.brand svg{width:32px;height:32px}
+ nav{width:100%}nav button{flex:1;padding:10px 2px;font-size:13px}
+ .acts{width:100%;display:flex;flex-wrap:wrap;gap:6px}.acts .b{flex:1 1 auto;text-align:center;padding:8px 10px;font-size:14px}
+ main{padding:12px}
+ .rf{padding:12px}.rf .row .b{flex:1}
+ .ir{grid-template-columns:1fr auto}.ir .in{grid-column:1/-1}
+ table,tbody,tr,td{display:block}
+ tr.hd{display:none}
+ tr{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+ td{border:0;padding:3px 0}
+ td:last-child{display:flex;justify-content:flex-end;gap:4px;padding-top:6px}
+ .x{padding:8px 10px}
+ .add{padding:8px;font-size:13px}
+ .nav{flex-wrap:wrap}.nav h2{order:-1;flex:1 1 100%;margin:0 0 4px;font-size:16px}.nav .b{flex:1}
+ .dh h3{font-size:14px}
+ dialog{padding:16px;max-height:92vh}
+ .ih{display:none}
+ dialog label.i{flex-wrap:wrap}
+ .i .inm{flex:1 1 calc(100% - 29px);min-width:0}
+ .i .need{margin-left:28px;text-align:left;flex:1 1 auto}
+ .i .need::before{content:'Needed: ';color:var(--mu)}
+ .i .buy{flex:0 0 120px;width:120px}
+ .sl{gap:8px}.q{min-width:0}
+}
 </style>
 </head>
 <body>
@@ -103,10 +136,11 @@ input.buy{padding:5px 8px}
     <button data-v="cal">Calendar</button>
     <button data-v="spesa">Shopping list <span id="cnt"></span></button>
   </nav>
-  <div>
+  <div class="acts">
     <button class="b" id="sy">Sync: <span id="st">…</span></button>
     <button class="b" id="exp">Export Excel</button>
     <label class="b btn">Import Excel<input type="file" id="imp" accept=".xlsx,.xls" hidden></label>
+    <button class="b" id="inf">Info</button>
   </div>
 </header>
 <main>
@@ -155,6 +189,36 @@ input.buy{padding:5px 8px}
   </div>
 </dialog>
 
+<dialog id="ig">
+  <h2>Info <button class="b" id="ic">Close</button></h2>
+  <p>A small recipe book, weekly meal planner and shopping list. It runs entirely in your browser: no account needed.</p>
+  <h3>How it works</h3>
+  <ol>
+    <li><b>Recipes</b>: add a recipe with a name, its ingredients (each with an amount such as <code>200 g</code> or <code>2</code>) and, if you like, a note and a link. Click a recipe's name to see everything at a glance.</li>
+    <li><b>Calendar</b>: each day has Breakfast, Lunch and Dinner. Press <b>+ Add</b> to put a recipe on a meal; you can search by name or ingredient. Tick the ingredients you are missing and, if you like, enter how much to buy. Click a meal later to change the recipe or the ingredients. <b>+ Meal</b> adds an extra meal with a name you choose, and <b>×</b> removes a meal from that day.</li>
+    <li><b>Shopping list</b>: the missing ingredients land here automatically, with the amounts to buy. Tick items as you buy them and use <b>Clear cart</b> to remove the bought ones. Changing or removing a meal updates the list.</li>
+    <li><b>Excel</b>: <b>Export Excel</b> and <b>Import Excel</b> let you back up or move your data.</li>
+  </ol>
+  <h3>Where your data lives</h3>
+  <p>By default only in your own browser (localStorage): nothing is sent anywhere. To see the same data on every device, turn on sync.</p>
+  <h3>Sync between devices (optional)</h3>
+  <p>Your data can be saved to a <code>data.json</code> file in a GitHub repository. Use a <b>separate private repository</b> for this, not the one that hosts the site.</p>
+  <ol>
+    <li>Create a private repository (for example <code>meal-data</code>) with at least one commit, for example by ticking <i>Add a README</i>.</li>
+    <li>Create a fine-grained personal access token limited to that repository only, with <b>Contents: Read and write</b>.</li>
+    <li>Press <b>Sync</b>, then enter your username, the data repository name, the branch and the token.</li>
+  </ol>
+  <p>The token is stored only in that device's browser. Repeat the last step on each device.</p>
+  <h3>Host your own copy</h3>
+  <ol>
+    <li>Fork the repository (or use it as a template).</li>
+    <li>Go to <b>Settings → Pages</b>, choose <b>Deploy from a branch</b>, branch <code>main</code>, folder <code>/ (root)</code>.</li>
+    <li>After a minute the site is live at <code>https://&lt;your-username&gt;.github.io/&lt;repository-name&gt;/</code>.</li>
+  </ol>
+  <h3>Credits</h3>
+  <p>The original idea is by <b>Lorenzo Carbutti</b>, who developed it for Notion. I used Claude to turn it into this website.</p>
+</dialog>
+
 <dialog id="vg">
   <h2 id="vt"></h2>
   <div id="vb"></div>
@@ -166,9 +230,9 @@ input.buy{padding:5px 8px}
 
 <dialog id="cg">
   <h2>GitHub sync</h2>
-  <p class="hint">Your data is saved in the <b>data.json</b> file of the repository, so you see the same things on every device. Enter the token once per device. Create it in GitHub → Settings → Developer settings → Fine-grained tokens, limited to this repository, with <b>Contents: Read and write</b> permission.</p>
+  <p class="hint">Your data is saved in the <b>data.json</b> file of the repository below, so you see the same things on every device. It can be a separate, private repository used only for your data. Enter the token once per device. Create it in GitHub → Settings → Developer settings → Fine-grained tokens, limited to this repository, with <b>Contents: Read and write</b> permission.</p>
   <label class="f">GitHub username<input id="co"></label>
-  <label class="f">Repository<input id="cr"></label>
+  <label class="f">Data repository<input id="cr"></label>
   <label class="f">Branch<input id="cb" placeholder="main"></label>
   <label class="f">Token<input id="ct" type="password" autocomplete="off"></label>
   <div class="row" style="margin:16px 0 0;justify-content:flex-end">
@@ -212,7 +276,7 @@ const setSt=(t,c)=>{$('#st').textContent=t;$('#st').className=c||''};
 const ERR='error (check token and repository)';
 const enc=s=>btoa(unescape(encodeURIComponent(s)));
 const dec=s=>decodeURIComponent(escape(atob(s.replace(/\s/g,''))));
-let sha=null,busy=false,tm;
+let sha=null,busy=false,tm,firstConnect=false;
 function save(){
   try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}
   setDirty(true);
@@ -245,7 +309,14 @@ async function start(){
   if(busy)return;busy=true;
   try{
     const c=CF();
-    if(c.token){isDirty()?await push():await pull()}
+    if(c.token){
+      if(isDirty()&&firstConnect){
+        const r=await api(c,'GET');
+        if(r.ok&&!confirm("This device has changes that were never synced, and the repository already has data.\n\nOK = replace the repository data with this device's data.\nCancel = discard this device's data and load the repository data."))setDirty(false);
+      }
+      firstConnect=false;
+      isDirty()?await push():await pull();
+    }
     else{
       setSt('read-only / local');
       if(!isDirty()){const r=await fetch('data.json?t='+Date.now());if(r.ok){S=norm(await r.json());R();setSt('read-only')}}
@@ -264,7 +335,7 @@ $('#cu').onclick=()=>{localStorage.removeItem(KC);$('#cg').close();setSt('this d
 $('#cs').onclick=()=>{
   const c={owner:$('#co').value.trim(),repo:$('#cr').value.trim(),branch:$('#cb').value.trim()||'main',token:$('#ct').value.trim()};
   if(!c.owner||!c.repo||!c.token)return alert('Fill in username, repository and token.');
-  localStorage.setItem(KC,JSON.stringify(c));sha=null;$('#cg').close();start();
+  localStorage.setItem(KC,JSON.stringify(c));sha=null;firstConnect=true;$('#cg').close();start();
 };
 
 // ---------- tabs ----------
@@ -278,7 +349,7 @@ const url=u=>{u=(u||'').trim();return !u?'':/^https?:\/\//i.test(u)?u:'https://'
 const info=r=>(r.link?`<p><a href="${esc(url(r.link))}" target="_blank" rel="noopener">Open recipe link</a></p>`:'')+(r.note?`<p class="note">${esc(r.note)}</p>`:'');
 function renderRic(){
   const l=[...S.ric].sort((a,b)=>a.name.localeCompare(b.name,'en'));
-  $('#rl').innerHTML=l.length?'<table><tr><th>Name</th><th>Ingredients</th><th></th></tr>'+l.map(r=>
+  $('#rl').innerHTML=l.length?'<table><tr class="hd"><th>Name</th><th>Ingredients</th><th></th></tr>'+l.map(r=>
     `<tr><td><button class="rname" onclick="openV('${r.id}')">${esc(r.name)}</button></td><td>${r.ing.map(i=>`<span class="chip">${esc(i.n)}${i.q?` <small>${esc(i.q)}</small>`:''}</span>`).join('')}</td>
     <td style="white-space:nowrap"><button class="x" onclick="editR('${r.id}')">Edit</button><button class="x" onclick="delR('${r.id}')">Delete</button></td></tr>`).join('')+'</table>'
     :'<p class="empty">No recipes yet. Type a name and the ingredients above to get started.</p>';
@@ -312,6 +383,9 @@ window.openV=id=>{
   $('#ve').onclick=()=>{$('#vg').close();editR(id)};$('#vg').showModal();
 };
 $('#vx').onclick=()=>$('#vg').close();
+$('#inf').onclick=()=>$('#ig').showModal();$('#ic').onclick=()=>$('#ig').close();
+['#ig','#vg'].forEach(s=>$(s).addEventListener('click',e=>{const r=e.currentTarget.getBoundingClientRect();
+  if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.currentTarget.close()}));
 
 // ---------- calendar ----------
 function renderCal(){
@@ -372,9 +446,9 @@ function fillR(sel,on){
 $('#dq').oninput=()=>fillR($('#dr').value,getMiss());
 function fillI(on){
   const r=rec($('#dr').value);
-  $('#di').innerHTML=r.ing.length?'<div class="ih"><span style="flex:1">Ingredient</span><span class="need">Needed</span><span class="buy0">To buy</span></div>'+r.ing.map(i=>{
+  $('#di').innerHTML=r.ing.length?'<div class="ih"><span class="inm">Ingredient</span><span class="need">Needed</span><span class="buy0">To buy</span></div>'+r.ing.map(i=>{
     const m=on.find(x=>x.n===i.n);
-    return `<label class="i"><input type="checkbox" value="${esc(i.n)}" ${m?'checked':''}><span style="flex:1">${esc(i.n)}</span><span class="need">${esc(i.q)||'–'}</span><input class="buy" placeholder="e.g. 500 g" aria-label="Quantity to buy of ${esc(i.n)}" value="${esc(m?m.b:'')}"></label>`}).join(''):'<p class="hint">This recipe has no ingredients.</p>';
+    return `<label class="i"><input type="checkbox" value="${esc(i.n)}" ${m?'checked':''}><span class="inm">${esc(i.n)}</span><span class="need">${esc(i.q)||'–'}</span><input class="buy" placeholder="e.g. 500 g" aria-label="Quantity to buy of ${esc(i.n)}" value="${esc(m?m.b:'')}"></label>`}).join(''):'<p class="hint">This recipe has no ingredients.</p>';
   document.querySelectorAll('#di .buy').forEach(b=>b.oninput=()=>{if(b.value.trim())b.closest('label').querySelector('input[type=checkbox]').checked=true});
   $('#dinfo').innerHTML=info(r);
 }
